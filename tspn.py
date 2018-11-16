@@ -1,32 +1,27 @@
-# 05/15/17
-# Author: Kun Tian (io.kuntian@gmail.com)
-# Python 2.7
-
 from __future__ import print_function, division
 from numpy import exp
 from numpy import power
-from numpy import cosh
 
 def step(dydt, iclamp, gmax, dt):
 
     ## initialization
-    V = dydt[0]  # Somatic membrane voltage (mV)
-    CaS = dydt[1]  # somatic [Ca2+]
-    m = dydt[2]  # Na activation
-    h = dydt[3]  # Na inactivation
-    n = dydt[4]  # K activation
-    mA = dydt[5]  # A activation
-    hA = dydt[6]  # A inactivation
-    mh = dydt[7]  # h activation
-    mM = dydt[8]  # M activation
-    mCaL = dydt[9]  # CaL activation
-    hCaL = dydt[10]  # CaL inactivation
-    s = dydt[11]  # Na slow inactivation
-    mKCa = dydt[12]  # KCa activation
+    V = dydt[0]             # Somatic membrane voltage (mV)
+    CaS = dydt[1]           # somatic [Ca2+]
+    m = dydt[2]             # Na activation
+    h = dydt[3]             # Na inactivation
+    n = dydt[4]             # K activation
+    mA = dydt[5]            # A activation
+    hA = dydt[6]            # A inactivation
+    mh = dydt[7]            # h activation
+    mM = dydt[8]            # M activation
+    mCaL = dydt[9]          # CaL activation
+    hCaL = dydt[10]         # CaL inactivation
+    s = dydt[11]            # Na slow inactivation
+    mKCa = dydt[12]         # KCa activation
     mh_inf_prev = dydt[21]
 
     pop_idx = gmax[0]
-    GNa = gmax[1]  # nS; maximum conductance of INa
+    GNa = gmax[1]           # nS; maximum conductance of INa
     GK = gmax[2]
     GCaL = gmax[3]
     GM = gmax[4]
@@ -37,7 +32,7 @@ def step(dydt, iclamp, gmax, dt):
     C = gmax[9]
     Gsyn = 0
 
-    E_Na = 60                  # mV; reverse potential of INa
+    E_Na = 60                # mV; reverse potential of INa
     E_K = -90
     E_h = -31.6
     E_leak = -55
@@ -47,12 +42,10 @@ def step(dydt, iclamp, gmax, dt):
     f = 0.01                   # percent of free to bound Ca2+
     alpha = 0.002              # uM/pA; convertion factor from current to concentration
     kCaS = 0.024               # /ms; Ca2+ removal rate, kCaS is proportional to  1/tau_removal; 0.008 - 0.025
-    # A = 1.26e-5              # cm^2; cell surface area; radius is 10um
-    # Ca_out = 2               # mM; extracellular Ca2+ concentration
 
     SCa = 1                    # uM; half-saturation of [Ca2+]; 25uM in Ermentrount book, 0.2uM in Kurian et al. 2011
     tauKCa_0 = 50              # ms
-    tau_hA_scale = 100          # scaling factor for tau_hA
+    tau_hA_scale = 100         # scaling factor for tau_hA
 
     ## update dydt
     # Sodium current (pA), Wheeler & Horn 2004 or Yamada et al., 1989
